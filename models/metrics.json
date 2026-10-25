@@ -1,0 +1,869 @@
+{
+  "Deep Neural Network (50 Epochs)": {
+    "accuracy": 0.987,
+    "precision": 0.974,
+    "recall": 0.9095,
+    "f1_score": 0.9406,
+    "roc_auc": 0.9915,
+    "confusion_matrix": [
+      [
+        3548,
+        11
+      ],
+      [
+        41,
+        412
+      ]
+    ],
+    "source_evaluation": {
+      "EMSCAD / Kaggle Benchmark": {
+        "test_samples": 3581,
+        "accuracy": 0.9869,
+        "f1_score": 0.8661
+      },
+      "Internship & Student Scams": {
+        "test_samples": 179,
+        "accuracy": 0.9888,
+        "f1_score": 0.9915
+      },
+      "Modern Online Scams (2024-2026)": {
+        "test_samples": 32,
+        "accuracy": 1.0,
+        "f1_score": 1.0
+      },
+      "Multi-Domain Verified Listings": {
+        "test_samples": 35,
+        "accuracy": 1.0,
+        "f1_score": 0.0
+      },
+      "Secondary Scams & Opportunities Corpus": {
+        "test_samples": 185,
+        "accuracy": 0.9838,
+        "f1_score": 0.9868
+      }
+    }
+  },
+  "Calibrated Linear SVM": {
+    "accuracy": 0.9835,
+    "precision": 0.949,
+    "recall": 0.9029,
+    "f1_score": 0.9253,
+    "roc_auc": 0.9876,
+    "confusion_matrix": [
+      [
+        3537,
+        22
+      ],
+      [
+        44,
+        409
+      ]
+    ],
+    "source_evaluation": {
+      "EMSCAD / Kaggle Benchmark": {
+        "test_samples": 3581,
+        "accuracy": 0.9838,
+        "f1_score": 0.8389
+      },
+      "Internship & Student Scams": {
+        "test_samples": 179,
+        "accuracy": 0.9777,
+        "f1_score": 0.9829
+      },
+      "Modern Online Scams (2024-2026)": {
+        "test_samples": 32,
+        "accuracy": 1.0,
+        "f1_score": 1.0
+      },
+      "Multi-Domain Verified Listings": {
+        "test_samples": 35,
+        "accuracy": 1.0,
+        "f1_score": 0.0
+      },
+      "Secondary Scams & Opportunities Corpus": {
+        "test_samples": 185,
+        "accuracy": 0.9784,
+        "f1_score": 0.9823
+      }
+    }
+  },
+  "Logistic Regression (Balanced)": {
+    "accuracy": 0.9803,
+    "precision": 0.8896,
+    "recall": 0.9426,
+    "f1_score": 0.9153,
+    "roc_auc": 0.9873,
+    "confusion_matrix": [
+      [
+        3506,
+        53
+      ],
+      [
+        26,
+        427
+      ]
+    ],
+    "source_evaluation": {
+      "EMSCAD / Kaggle Benchmark": {
+        "test_samples": 3581,
+        "accuracy": 0.9793,
+        "f1_score": 0.8177
+      },
+      "Internship & Student Scams": {
+        "test_samples": 179,
+        "accuracy": 0.9832,
+        "f1_score": 0.9872
+      },
+      "Modern Online Scams (2024-2026)": {
+        "test_samples": 32,
+        "accuracy": 1.0,
+        "f1_score": 1.0
+      },
+      "Multi-Domain Verified Listings": {
+        "test_samples": 35,
+        "accuracy": 1.0,
+        "f1_score": 0.0
+      },
+      "Secondary Scams & Opportunities Corpus": {
+        "test_samples": 185,
+        "accuracy": 0.9892,
+        "f1_score": 0.9912
+      }
+    }
+  },
+  "Ridge Classifier (Calibrated)": {
+    "accuracy": 0.9818,
+    "precision": 0.9398,
+    "recall": 0.8962,
+    "f1_score": 0.9175,
+    "roc_auc": 0.989,
+    "confusion_matrix": [
+      [
+        3533,
+        26
+      ],
+      [
+        47,
+        406
+      ]
+    ],
+    "source_evaluation": {
+      "EMSCAD / Kaggle Benchmark": {
+        "test_samples": 3581,
+        "accuracy": 0.983,
+        "f1_score": 0.8338
+      },
+      "Internship & Student Scams": {
+        "test_samples": 179,
+        "accuracy": 0.9665,
+        "f1_score": 0.9739
+      },
+      "Modern Online Scams (2024-2026)": {
+        "test_samples": 32,
+        "accuracy": 1.0,
+        "f1_score": 1.0
+      },
+      "Multi-Domain Verified Listings": {
+        "test_samples": 35,
+        "accuracy": 1.0,
+        "f1_score": 0.0
+      },
+      "Secondary Scams & Opportunities Corpus": {
+        "test_samples": 185,
+        "accuracy": 0.9676,
+        "f1_score": 0.9732
+      }
+    }
+  },
+  "Passive Aggressive Classifier": {
+    "accuracy": 0.9853,
+    "precision": 0.969,
+    "recall": 0.8985,
+    "f1_score": 0.9324,
+    "roc_auc": 0.9895,
+    "confusion_matrix": [
+      [
+        3546,
+        13
+      ],
+      [
+        46,
+        407
+      ]
+    ],
+    "source_evaluation": {
+      "EMSCAD / Kaggle Benchmark": {
+        "test_samples": 3581,
+        "accuracy": 0.9855,
+        "f1_score": 0.8514
+      },
+      "Internship & Student Scams": {
+        "test_samples": 179,
+        "accuracy": 0.9832,
+        "f1_score": 0.9871
+      },
+      "Modern Online Scams (2024-2026)": {
+        "test_samples": 32,
+        "accuracy": 1.0,
+        "f1_score": 1.0
+      },
+      "Multi-Domain Verified Listings": {
+        "test_samples": 35,
+        "accuracy": 1.0,
+        "f1_score": 0.0
+      },
+      "Secondary Scams & Opportunities Corpus": {
+        "test_samples": 185,
+        "accuracy": 0.9784,
+        "f1_score": 0.9823
+      }
+    }
+  },
+  "Random Forest (Balanced)": {
+    "accuracy": 0.9741,
+    "precision": 0.9352,
+    "recall": 0.8278,
+    "f1_score": 0.8782,
+    "roc_auc": 0.9909,
+    "confusion_matrix": [
+      [
+        3533,
+        26
+      ],
+      [
+        78,
+        375
+      ]
+    ],
+    "source_evaluation": {
+      "EMSCAD / Kaggle Benchmark": {
+        "test_samples": 3581,
+        "accuracy": 0.9802,
+        "f1_score": 0.776
+      },
+      "Internship & Student Scams": {
+        "test_samples": 179,
+        "accuracy": 0.8715,
+        "f1_score": 0.9069
+      },
+      "Modern Online Scams (2024-2026)": {
+        "test_samples": 32,
+        "accuracy": 1.0,
+        "f1_score": 1.0
+      },
+      "Multi-Domain Verified Listings": {
+        "test_samples": 35,
+        "accuracy": 1.0,
+        "f1_score": 0.0
+      },
+      "Secondary Scams & Opportunities Corpus": {
+        "test_samples": 185,
+        "accuracy": 0.9459,
+        "f1_score": 0.9558
+      }
+    }
+  },
+  "Voting Ensemble (SVM + LR + RF)": {
+    "accuracy": 0.9845,
+    "precision": 0.9474,
+    "recall": 0.9139,
+    "f1_score": 0.9303,
+    "roc_auc": 0.9943,
+    "confusion_matrix": [
+      [
+        3536,
+        23
+      ],
+      [
+        39,
+        414
+      ]
+    ],
+    "source_evaluation": {
+      "EMSCAD / Kaggle Benchmark": {
+        "test_samples": 3581,
+        "accuracy": 0.9841,
+        "f1_score": 0.843
+      },
+      "Internship & Student Scams": {
+        "test_samples": 179,
+        "accuracy": 0.9832,
+        "f1_score": 0.9872
+      },
+      "Modern Online Scams (2024-2026)": {
+        "test_samples": 32,
+        "accuracy": 1.0,
+        "f1_score": 1.0
+      },
+      "Multi-Domain Verified Listings": {
+        "test_samples": 35,
+        "accuracy": 1.0,
+        "f1_score": 0.0
+      },
+      "Secondary Scams & Opportunities Corpus": {
+        "test_samples": 185,
+        "accuracy": 0.9892,
+        "f1_score": 0.9912
+      }
+    }
+  },
+  "top_fraud_words": [
+    "additional application",
+    "application note",
+    "opportunity title",
+    "location us",
+    "note",
+    "job opportunity",
+    "accion",
+    "immediate",
+    "immediate start",
+    "description",
+    "type",
+    "opportunity",
+    "employment type",
+    "earn",
+    "subsea",
+    "location",
+    "earning",
+    "money",
+    "additional",
+    "novation",
+    "per",
+    "variant",
+    "accountant",
+    "atandt",
+    "engineering",
+    "limited",
+    "high school",
+    "apply",
+    "assistant",
+    "clearly",
+    "db",
+    "data entry",
+    "continue",
+    "described",
+    "sales executive"
+  ],
+  "top_real_words": [
+    "companies",
+    "clients",
+    "digital",
+    "dedicated",
+    "english",
+    "client",
+    "growing",
+    "search",
+    "right",
+    "medical",
+    "order",
+    "agency",
+    "team",
+    "marketing",
+    "title insurance",
+    "days",
+    "university",
+    "hardware",
+    "fun",
+    "user",
+    "infrastructure",
+    "expanding",
+    "currently",
+    "know",
+    "software",
+    "near",
+    "class",
+    "closing",
+    "chat",
+    "allied",
+    "solutions",
+    "requires",
+    "work well",
+    "warehouse",
+    "based"
+  ],
+  "dataset_breakdown": {
+    "EMSCAD / Kaggle Benchmark": {
+      "total": 17880,
+      "real": 17014,
+      "fake": 866,
+      "fraud_rate": 4.84
+    },
+    "Internship & Student Scams": {
+      "total": 900,
+      "real": 300,
+      "fake": 600,
+      "fraud_rate": 66.67
+    },
+    "Modern Online Scams (2024-2026)": {
+      "total": 200,
+      "real": 0,
+      "fake": 200,
+      "fraud_rate": 100.0
+    },
+    "Multi-Domain Verified Listings": {
+      "total": 180,
+      "real": 180,
+      "fake": 0,
+      "fraud_rate": 0.0
+    },
+    "Secondary Scams & Opportunities Corpus": {
+      "total": 900,
+      "real": 300,
+      "fake": 600,
+      "fraud_rate": 66.67
+    }
+  },
+  "epoch_history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.2156,
+      "val_accuracy": 0.9736,
+      "val_precision": 0.9121,
+      "val_recall": 0.8477,
+      "val_f1": 0.8787,
+      "val_roc_auc": 0.9882
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.0448,
+      "val_accuracy": 0.9808,
+      "val_precision": 0.9747,
+      "val_recall": 0.8521,
+      "val_f1": 0.9093,
+      "val_roc_auc": 0.9913
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.0169,
+      "val_accuracy": 0.9838,
+      "val_precision": 0.9597,
+      "val_recall": 0.894,
+      "val_f1": 0.9257,
+      "val_roc_auc": 0.9914
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.0075,
+      "val_accuracy": 0.9816,
+      "val_precision": 0.9239,
+      "val_recall": 0.9117,
+      "val_f1": 0.9178,
+      "val_roc_auc": 0.9914
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.0053,
+      "val_accuracy": 0.985,
+      "val_precision": 0.9624,
+      "val_recall": 0.9029,
+      "val_f1": 0.9317,
+      "val_roc_auc": 0.9916
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.0035,
+      "val_accuracy": 0.986,
+      "val_precision": 0.9715,
+      "val_recall": 0.9029,
+      "val_f1": 0.9359,
+      "val_roc_auc": 0.9918
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.0026,
+      "val_accuracy": 0.9863,
+      "val_precision": 0.9671,
+      "val_recall": 0.9095,
+      "val_f1": 0.9374,
+      "val_roc_auc": 0.9917
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.0019,
+      "val_accuracy": 0.9863,
+      "val_precision": 0.9671,
+      "val_recall": 0.9095,
+      "val_f1": 0.9374,
+      "val_roc_auc": 0.9915
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.0015,
+      "val_accuracy": 0.9865,
+      "val_precision": 0.9672,
+      "val_recall": 0.9117,
+      "val_f1": 0.9386,
+      "val_roc_auc": 0.9915
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.0013,
+      "val_accuracy": 0.9863,
+      "val_precision": 0.9716,
+      "val_recall": 0.9051,
+      "val_f1": 0.9371,
+      "val_roc_auc": 0.9915
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.0011,
+      "val_accuracy": 0.9868,
+      "val_precision": 0.9739,
+      "val_recall": 0.9073,
+      "val_f1": 0.9394,
+      "val_roc_auc": 0.9915
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.001,
+      "val_accuracy": 0.987,
+      "val_precision": 0.974,
+      "val_recall": 0.9095,
+      "val_f1": 0.9406,
+      "val_roc_auc": 0.9915
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.0009,
+      "val_accuracy": 0.9868,
+      "val_precision": 0.9739,
+      "val_recall": 0.9073,
+      "val_f1": 0.9394,
+      "val_roc_auc": 0.9915
+    },
+    {
+      "epoch": 14,
+      "train_loss": 0.0007,
+      "val_accuracy": 0.9868,
+      "val_precision": 0.9739,
+      "val_recall": 0.9073,
+      "val_f1": 0.9394,
+      "val_roc_auc": 0.9915
+    },
+    {
+      "epoch": 15,
+      "train_loss": 0.0007,
+      "val_accuracy": 0.9868,
+      "val_precision": 0.9762,
+      "val_recall": 0.9051,
+      "val_f1": 0.9393,
+      "val_roc_auc": 0.9915
+    },
+    {
+      "epoch": 16,
+      "train_loss": 0.0006,
+      "val_accuracy": 0.9868,
+      "val_precision": 0.9785,
+      "val_recall": 0.9029,
+      "val_f1": 0.9392,
+      "val_roc_auc": 0.9915
+    },
+    {
+      "epoch": 17,
+      "train_loss": 0.0006,
+      "val_accuracy": 0.9865,
+      "val_precision": 0.9784,
+      "val_recall": 0.9007,
+      "val_f1": 0.9379,
+      "val_roc_auc": 0.9914
+    },
+    {
+      "epoch": 18,
+      "train_loss": 0.0006,
+      "val_accuracy": 0.9863,
+      "val_precision": 0.9784,
+      "val_recall": 0.8985,
+      "val_f1": 0.9367,
+      "val_roc_auc": 0.9914
+    },
+    {
+      "epoch": 19,
+      "train_loss": 0.0006,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9783,
+      "val_recall": 0.894,
+      "val_f1": 0.9343,
+      "val_roc_auc": 0.9914
+    },
+    {
+      "epoch": 20,
+      "train_loss": 0.0006,
+      "val_accuracy": 0.986,
+      "val_precision": 0.9806,
+      "val_recall": 0.894,
+      "val_f1": 0.9353,
+      "val_roc_auc": 0.9914
+    },
+    {
+      "epoch": 21,
+      "train_loss": 0.0006,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9626,
+      "val_recall": 0.9095,
+      "val_f1": 0.9353,
+      "val_roc_auc": 0.9914
+    },
+    {
+      "epoch": 22,
+      "train_loss": 0.0006,
+      "val_accuracy": 0.9863,
+      "val_precision": 0.965,
+      "val_recall": 0.9117,
+      "val_f1": 0.9376,
+      "val_roc_auc": 0.9914
+    },
+    {
+      "epoch": 23,
+      "train_loss": 0.0009,
+      "val_accuracy": 0.9821,
+      "val_precision": 0.915,
+      "val_recall": 0.9272,
+      "val_f1": 0.9211,
+      "val_roc_auc": 0.9913
+    },
+    {
+      "epoch": 24,
+      "train_loss": 0.0015,
+      "val_accuracy": 0.9838,
+      "val_precision": 0.9533,
+      "val_recall": 0.9007,
+      "val_f1": 0.9262,
+      "val_roc_auc": 0.9914
+    },
+    {
+      "epoch": 25,
+      "train_loss": 0.0051,
+      "val_accuracy": 0.9853,
+      "val_precision": 0.9518,
+      "val_recall": 0.9161,
+      "val_f1": 0.9336,
+      "val_roc_auc": 0.991
+    },
+    {
+      "epoch": 26,
+      "train_loss": 0.0023,
+      "val_accuracy": 0.986,
+      "val_precision": 0.9715,
+      "val_recall": 0.9029,
+      "val_f1": 0.9359,
+      "val_roc_auc": 0.9903
+    },
+    {
+      "epoch": 27,
+      "train_loss": 0.003,
+      "val_accuracy": 0.985,
+      "val_precision": 0.9559,
+      "val_recall": 0.9095,
+      "val_f1": 0.9321,
+      "val_roc_auc": 0.9911
+    },
+    {
+      "epoch": 28,
+      "train_loss": 0.0014,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9737,
+      "val_recall": 0.8985,
+      "val_f1": 0.9346,
+      "val_roc_auc": 0.991
+    },
+    {
+      "epoch": 29,
+      "train_loss": 0.0006,
+      "val_accuracy": 0.9865,
+      "val_precision": 0.9672,
+      "val_recall": 0.9117,
+      "val_f1": 0.9386,
+      "val_roc_auc": 0.9912
+    },
+    {
+      "epoch": 30,
+      "train_loss": 0.0005,
+      "val_accuracy": 0.9865,
+      "val_precision": 0.9672,
+      "val_recall": 0.9117,
+      "val_f1": 0.9386,
+      "val_roc_auc": 0.9911
+    },
+    {
+      "epoch": 31,
+      "train_loss": 0.0004,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9605,
+      "val_recall": 0.9117,
+      "val_f1": 0.9354,
+      "val_roc_auc": 0.9911
+    },
+    {
+      "epoch": 32,
+      "train_loss": 0.0004,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9605,
+      "val_recall": 0.9117,
+      "val_f1": 0.9354,
+      "val_roc_auc": 0.9911
+    },
+    {
+      "epoch": 33,
+      "train_loss": 0.0004,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9605,
+      "val_recall": 0.9117,
+      "val_f1": 0.9354,
+      "val_roc_auc": 0.991
+    },
+    {
+      "epoch": 34,
+      "train_loss": 0.0004,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9605,
+      "val_recall": 0.9117,
+      "val_f1": 0.9354,
+      "val_roc_auc": 0.991
+    },
+    {
+      "epoch": 35,
+      "train_loss": 0.0004,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9605,
+      "val_recall": 0.9117,
+      "val_f1": 0.9354,
+      "val_roc_auc": 0.9909
+    },
+    {
+      "epoch": 36,
+      "train_loss": 0.0004,
+      "val_accuracy": 0.9855,
+      "val_precision": 0.9582,
+      "val_recall": 0.9117,
+      "val_f1": 0.9344,
+      "val_roc_auc": 0.9909
+    },
+    {
+      "epoch": 37,
+      "train_loss": 0.0004,
+      "val_accuracy": 0.9855,
+      "val_precision": 0.9582,
+      "val_recall": 0.9117,
+      "val_f1": 0.9344,
+      "val_roc_auc": 0.9909
+    },
+    {
+      "epoch": 38,
+      "train_loss": 0.0004,
+      "val_accuracy": 0.9855,
+      "val_precision": 0.9582,
+      "val_recall": 0.9117,
+      "val_f1": 0.9344,
+      "val_roc_auc": 0.9908
+    },
+    {
+      "epoch": 39,
+      "train_loss": 0.0004,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9605,
+      "val_recall": 0.9117,
+      "val_f1": 0.9354,
+      "val_roc_auc": 0.9908
+    },
+    {
+      "epoch": 40,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.9605,
+      "val_recall": 0.9117,
+      "val_f1": 0.9354,
+      "val_roc_auc": 0.9908
+    },
+    {
+      "epoch": 41,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9855,
+      "val_precision": 0.9604,
+      "val_recall": 0.9095,
+      "val_f1": 0.9342,
+      "val_roc_auc": 0.9908
+    },
+    {
+      "epoch": 42,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9853,
+      "val_precision": 0.9603,
+      "val_recall": 0.9073,
+      "val_f1": 0.933,
+      "val_roc_auc": 0.9907
+    },
+    {
+      "epoch": 43,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9853,
+      "val_precision": 0.9603,
+      "val_recall": 0.9073,
+      "val_f1": 0.933,
+      "val_roc_auc": 0.9907
+    },
+    {
+      "epoch": 44,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9853,
+      "val_precision": 0.9603,
+      "val_recall": 0.9073,
+      "val_f1": 0.933,
+      "val_roc_auc": 0.9907
+    },
+    {
+      "epoch": 45,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9853,
+      "val_precision": 0.9603,
+      "val_recall": 0.9073,
+      "val_f1": 0.933,
+      "val_roc_auc": 0.9907
+    },
+    {
+      "epoch": 46,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.985,
+      "val_precision": 0.9602,
+      "val_recall": 0.9051,
+      "val_f1": 0.9318,
+      "val_roc_auc": 0.9907
+    },
+    {
+      "epoch": 47,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9853,
+      "val_precision": 0.9624,
+      "val_recall": 0.9051,
+      "val_f1": 0.9329,
+      "val_roc_auc": 0.9907
+    },
+    {
+      "epoch": 48,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9855,
+      "val_precision": 0.9647,
+      "val_recall": 0.9051,
+      "val_f1": 0.9339,
+      "val_roc_auc": 0.9907
+    },
+    {
+      "epoch": 49,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9855,
+      "val_precision": 0.9647,
+      "val_recall": 0.9051,
+      "val_f1": 0.9339,
+      "val_roc_auc": 0.9906
+    },
+    {
+      "epoch": 50,
+      "train_loss": 0.0003,
+      "val_accuracy": 0.9858,
+      "val_precision": 0.967,
+      "val_recall": 0.9051,
+      "val_f1": 0.935,
+      "val_roc_auc": 0.9906
+    }
+  ],
+  "best_model_name": "Deep Neural Network (50 Epochs)"
+}

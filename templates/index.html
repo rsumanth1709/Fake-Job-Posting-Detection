@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobShield AI | Fake Job Posting Detection System</title>
+    <!-- Favicon & Web Icons -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="theme-color" content="#1e3a8a">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg-light: #f8fafc;
+            --card-border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-custom {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .nav-tabs .nav-link {
+            font-weight: 600;
+            color: #64748b;
+            border: none;
+            padding: 0.85rem 1.5rem;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--primary);
+            border-bottom-color: #cbd5e1;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
+            background: transparent;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .card-custom {
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .card-custom:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 2.2rem 2.5rem;
+            border-radius: 14px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+        }
+
+        .preset-badge {
+            cursor: pointer;
+            border: 1px solid #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-block;
+            margin: 0.25rem;
+            user-select: none;
+        }
+
+        .preset-badge:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .verdict-box {
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-top: 1.5rem;
+            border: 2px solid;
+            transition: all 0.3s ease;
+        }
+
+        .verdict-high {
+            background-color: #fef2f2;
+            border-color: #f87171;
+            color: #991b1b;
+        }
+
+        .verdict-moderate {
+            background-color: #fffbeb;
+            border-color: #fbbf24;
+            color: #92400e;
+        }
+
+        .verdict-low {
+            background-color: #f0fdf4;
+            border-color: #4ade80;
+            color: #166534;
+        }
+
+        .risk-gauge-circle {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border: 8px solid;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .badge-critical {
+            background-color: #fee2e2;
+            color: #991b1b;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .badge-high {
+            background-color: #ffedd5;
+            color: #9a3412;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .badge-medium {
+            background-color: #fef9c3;
+            color: #854d0e;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .flag-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.9rem 1.2rem;
+            background: white;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .metric-stat-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .metric-stat-num {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-top: 0.2rem;
+        }
+
+        .drag-drop-zone {
+            border: 2px dashed #94a3b8;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            background: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .drag-drop-zone:hover {
+            border-color: var(--primary);
+            background: #f0f7ff;
+        }
+
+        footer {
+            margin-top: auto;
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 1.5rem 0;
+            text-align: center;
+            font-size: 0.88rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-custom navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <img src="{{ url_for('static', filename='favicon.svg') }}" alt="JobShield Logo" width="36" height="36" class="rounded-2 shadow-sm" style="filter: drop-shadow(0 2px 6px rgba(59,130,246,0.5));">
+                <span class="fs-4 fw-bold text-white">JobShield AI</span>
+                <span class="badge bg-primary-subtle text-primary ms-2">v2.0 (Flask Engine)</span>
+            </a>
+            <div class="text-white-50 small d-none d-md-block">
+                NLP & Machine Learning Fake Job Detection Platform
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-4">
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold mb-2"><i class="fa-solid fa-shield-virus me-2"></i>Detect Fraudulent Job Postings Instantly</h2>
+                    <p class="mb-0 fs-5 text-white-50">
+                        Evaluates employment listings using TF-IDF Natural Language Processing, classification algorithms, and domain fraud heuristics.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <span class="badge bg-white text-dark px-3 py-2 fw-semibold shadow-sm">
+                        <i class="fa-solid fa-circle-check text-success me-1"></i> Model: Balanced Classifier (98.2% Acc)
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs mb-4" id="mainTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="single-tab" data-bs-toggle="tab" data-bs-target="#single" type="button" role="tab">
+                    <i class="fa-solid fa-magnifying-glass me-2"></i>Single Job Scanner
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="batch-tab" data-bs-toggle="tab" data-bs-target="#batch" type="button" role="tab">
+                    <i class="fa-solid fa-file-csv me-2"></i>Batch CSV Scanner
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab" onclick="loadAnalytics()">
+                    <i class="fa-solid fa-chart-pie me-2"></i>Dataset & ML Analytics
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="guide-tab" data-bs-toggle="tab" data-bs-target="#guide" type="button" role="tab">
+                    <i class="fa-solid fa-book-shield me-2"></i>Scam Prevention Guide
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="mainTabsContent">
+
+            <!-- TAB 1: SINGLE JOB SCANNER -->
+            <div class="tab-pane fade show active" id="single" role="tabpanel">
+                
+                <!-- Preset Sample Selection -->
+                <div class="card-custom p-3 mb-4">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                        <span class="fw-bold text-secondary">
+                            <i class="fa-solid fa-bolt text-warning me-1"></i> 1-Click Test Samples:
+                        </span>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="resetForm()">
+                            <i class="fa-solid fa-rotate-left me-1"></i> Clear Form
+                        </button>
+                    </div>
+                    <div id="presetsContainer">
+                        <span class="preset-badge" onclick="loadPreset('fake_telegram')">
+                            🚨 Fake: Remote Data Entry $45/hr (Telegram)
+                        </span>
+                        <span class="preset-badge" onclick="loadPreset('fake_crypto')">
+                            🚨 Fake: Crypto Payment Assistant / Wire Transfer
+                        </span>
+                        <span class="preset-badge" onclick="loadPreset('real_engineer')">
+                            ✅ Real: Senior Software Engineer (Legitimate)
+                        </span>
+                        <span class="preset-badge" onclick="loadPreset('real_marketing')">
+                            ✅ Real: Digital Marketing Manager (Legitimate)
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Input Form -->
+                <div class="card-custom p-4">
+                    <form id="jobForm" onsubmit="analyzeJob(event)">
+                        <div class="row g-3">
+                            <div class="col-lg-8">
+                                <label class="form-label fw-bold">Job Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="title" placeholder="e.g. Remote Data Entry Clerk, Senior Backend Engineer..." required>
+
+                                <div class="row g-2 mt-2">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Company Name</label>
+                                        <input type="text" class="form-control" id="company_name" placeholder="e.g. Acme Corporation">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Employment Type</label>
+                                        <select class="form-select" id="employment_type">
+                                            <option value="Full-time">Full-time</option>
+                                            <option value="Part-time">Part-time</option>
+                                            <option value="Contract">Contract</option>
+                                            <option value="Temporary">Temporary</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <label class="form-label fw-bold"><i class="fa-solid fa-at text-primary me-1"></i> Recruiter Contact or Application URL <span class="badge bg-light text-secondary border ms-1">Entity Verification</span></label>
+                                    <input type="text" class="form-control" id="contact_info" placeholder="e.g. careers@company.com or https://boards.greenhouse.io/company">
+                                </div>
+
+                                <div class="mt-3">
+                                    <label class="form-label fw-bold">Company Profile / About the Company</label>
+                                    <textarea class="form-control" id="company_profile" rows="3" placeholder="Company background, website, mission... (Scammers often leave this blank!)"></textarea>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label class="form-label fw-bold">Job Description <span class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="description" rows="5" placeholder="Detailed daily duties, responsibilities, interview method..." required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="card-custom bg-light p-3 mb-3">
+                                    <h6 class="fw-bold mb-3"><i class="fa-solid fa-sliders me-1"></i> Job Metadata</h6>
+                                    
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="telecommuting">
+                                        <label class="form-check-label fw-semibold" for="telecommuting">
+                                            <i class="fa-solid fa-house-laptop text-primary me-1"></i> Fully Remote / Telecommuting
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="has_company_logo">
+                                        <label class="form-check-label fw-semibold" for="has_company_logo">
+                                            <i class="fa-solid fa-building text-primary me-1"></i> Company Logo Present on Post
+                                        </label>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label fw-bold small">Required Experience</label>
+                                        <select class="form-select form-select-sm" id="required_experience">
+                                            <option value="Entry level">Entry level</option>
+                                            <option value="Associate">Associate</option>
+                                            <option value="Mid-Senior level">Mid-Senior level</option>
+                                            <option value="Director">Director</option>
+                                            <option value="Executive">Executive</option>
+                                            <option value="Not Specified">Not Specified</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label class="form-label fw-bold">Job Requirements</label>
+                                    <textarea class="form-control" id="requirements" rows="3" placeholder="Skills, degrees, certifications..."></textarea>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label class="form-label fw-bold">Benefits & Compensation</label>
+                                    <textarea class="form-control" id="benefits" rows="3" placeholder="Salary, healthcare, wire transfers..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-top d-flex gap-2 justify-content-end">
+                            <button type="button" class="btn btn-outline-secondary px-4" onclick="resetForm()">Reset</button>
+                            <button type="submit" class="btn btn-primary px-5 fw-bold" id="scanBtn">
+                                <i class="fa-solid fa-shield-halved me-2"></i> Scan & Evaluate Job
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Analysis Results Section (Populated dynamically) -->
+                <div id="resultsArea" class="d-none">
+                    <div id="verdictCard" class="verdict-box">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <div class="d-flex align-items-center gap-3">
+                                    <span id="verdictIcon" class="fs-1"></span>
+                                    <div>
+                                        <h3 id="verdictTitle" class="fw-bold mb-1"></h3>
+                                        <p id="verdictSummary" class="mb-0 fs-6 text-muted"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mt-3 mt-md-0">
+                                <div id="gaugeCircle" class="risk-gauge-circle">
+                                    <span class="fs-2 fw-bolder" id="riskScoreVal">0%</span>
+                                    <span class="small text-muted" style="font-size: 0.75rem;">RISK SCORE</span>
+                                </div>
+                                <div class="mt-2 fw-semibold" id="riskLevelText"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metrics Breakdown -->
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-4">
+                            <div class="metric-stat-card">
+                                <div class="text-muted small">NLP Model Scam Probability</div>
+                                <div class="metric-stat-num" id="mlProbVal">-</div>
+                                <div class="text-secondary small">TF-IDF Vectorized Inference</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="metric-stat-card">
+                                <div class="text-muted small">Identified Red Flags</div>
+                                <div class="metric-stat-num" id="flagsCountVal">-</div>
+                                <div class="text-secondary small">Linguistic & Metadata Warnings</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="metric-stat-card">
+                                <div class="text-muted small">Scam Vocabulary Matches</div>
+                                <div class="metric-stat-num" id="wordsCountVal">-</div>
+                                <div class="text-secondary small">High-Risk Trigger Words</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Entity & Channel Verification Status Banner -->
+                    <div class="card-custom p-3 mt-3 border" id="entityVerificationCard">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-building-circle-check fs-4 text-primary" id="verifCardIcon"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-0">Corporate Entity & Channel Resolution</h6>
+                                    <div class="small text-muted" id="verifCardDetails">Auditing employer domain and recruiter application channels...</div>
+                                </div>
+                            </div>
+                            <span class="badge px-3 py-2 fs-6" id="verifBadge">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Red Flag Signals & Details -->
+                    <div class="card-custom p-4 mt-3">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i>Detailed Signals & Red Flags</h5>
+                        <div id="flagsList"></div>
+                    </div>
+
+                    <!-- Contributing Scam Keywords -->
+                    <div class="card-custom p-4 mt-3" id="keywordsCard">
+                        <h5 class="fw-bold mb-2"><i class="fa-solid fa-tags text-danger me-2"></i>Scam-Correlated Vocabulary Detected</h5>
+                        <p class="text-muted small mb-3">These words in the text have a high correlation with fraudulent listings in our trained model:</p>
+                        <div id="keywordsList"></div>
+                    </div>
+
+                    <!-- Safety Recommendations -->
+                    <div class="card-custom p-4 mt-3">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-user-shield text-success me-2"></i>Actionable Safety Recommendations for Job Seekers</h5>
+                        <ul id="recommendationsList" class="mb-0"></ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TAB 2: BATCH CSV SCANNER -->
+            <div class="tab-pane fade" id="batch" role="tabpanel">
+                <div class="card-custom p-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                        <div>
+                            <h4 class="fw-bold mb-1">Batch Job Postings Scanner</h4>
+                            <p class="text-muted mb-0">Upload a CSV file of job postings to evaluate hundreds of vacancies simultaneously.</p>
+                        </div>
+                        <a href="/api/download-template" class="btn btn-outline-primary btn-sm">
+                            <i class="fa-solid fa-download me-1"></i> Download Template CSV
+                        </a>
+                    </div>
+
+                    <div class="drag-drop-zone" onclick="document.getElementById('csvFileInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up fa-3x text-primary mb-3"></i>
+                        <h5 class="fw-bold">Click to Upload CSV or Drag & Drop</h5>
+                        <p class="text-muted small mb-0">Supports .csv files with standard columns: title, company_name, description, requirements, benefits</p>
+                        <input type="file" id="csvFileInput" accept=".csv" class="d-none" onchange="handleCsvUpload(event)">
+                    </div>
+
+                    <div id="batchProgress" class="mt-3 d-none">
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>Processing job listings...</span>
+                            <span id="batchPercentText">Scanning</span>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Batch Results Container -->
+                <div id="batchResultsArea" class="d-none">
+                    <!-- Batch Summary Cards -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-3">
+                            <div class="metric-stat-card">
+                                <div class="text-muted small">Total Jobs Scanned</div>
+                                <div class="metric-stat-num text-dark" id="bTotal">0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-stat-card">
+                                <div class="text-muted small">Flagged as High Risk / Fake</div>
+                                <div class="metric-stat-num text-danger" id="bFake">0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-stat-card">
+                                <div class="text-muted small">Moderate Caution</div>
+                                <div class="metric-stat-num text-warning" id="bModerate">0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-stat-card">
+                                <div class="text-muted small">Verified Legitimate</div>
+                                <div class="metric-stat-num text-success" id="bLegit">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-custom p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">Scanned Listings Table</h5>
+                            <button class="btn btn-success btn-sm" onclick="exportBatchCsv()">
+                                <i class="fa-solid fa-file-export me-1"></i> Export Enriched CSV
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle" id="batchTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Job Title</th>
+                                        <th>Company</th>
+                                        <th>Risk Score</th>
+                                        <th>Verdict</th>
+                                        <th>Flags</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="batchTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: DATASET & ML ANALYTICS -->
+            <div class="tab-pane fade" id="analytics" role="tabpanel">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="metric-stat-card">
+                            <div class="text-muted small">Total Multi-Dataset Corpus</div>
+                            <div class="metric-stat-num text-primary" id="totalRecordsCount">20,060</div>
+                            <div class="text-secondary small">5 Combined Dataset Sources</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric-stat-card">
+                            <div class="text-muted small">Legitimate Postings</div>
+                            <div class="metric-stat-num text-success" id="totalRealCount">17,794</div>
+                            <div class="text-secondary small">88.7% verified authentic</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric-stat-card">
+                            <div class="text-muted small">Fraudulent Postings</div>
+                            <div class="metric-stat-num text-danger" id="totalFakeCount">2,266</div>
+                            <div class="text-secondary small">11.3% diverse scam types</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric-stat-card">
+                            <div class="text-muted small">Model F1 Score (Minority)</div>
+                            <div class="metric-stat-num text-primary">90.47%</div>
+                            <div class="text-secondary small">Calibrated Linear SVM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diverse Dataset Sources Breakdown Card -->
+                <div class="card-custom p-4 mb-4">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-layer-group text-primary me-2"></i>Multi-Dataset Training Sources (20,060 Total Records)</h5>
+                    <div class="row g-3" id="datasetSourcesCards">
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <div class="fw-bold text-dark">EMSCAD / Kaggle Benchmark</div>
+                                <div class="text-muted small mt-1">17,880 listings (866 fake, 17,014 real) across general employment sectors.</div>
+                                <span class="badge bg-primary-subtle text-primary mt-2">Baseline Corpus</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <div class="fw-bold text-dark">Internship & Student Scams</div>
+                                <div class="text-muted small mt-1">900 student job & internship postings with paid training & registration scams.</div>
+                                <span class="badge bg-danger-subtle text-danger mt-2">Student & Campus Scams</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <div class="fw-bold text-dark">Modern Online Scams (2024-2026)</div>
+                                <div class="text-muted small mt-1">Telegram task scams, WhatsApp video reviews, crypto USDT deposit schemes.</div>
+                                <span class="badge bg-warning-subtle text-warning mt-2">Task & Crypto Scams</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <div class="fw-bold text-dark">Secondary Scams & Opportunities Corpus</div>
+                                <div class="text-muted small mt-1">900 cross-domain verified listings targeting international remote seekers.</div>
+                                <span class="badge bg-secondary-subtle text-secondary mt-2">Cross-Domain Corpus</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <div class="fw-bold text-dark">Multi-Domain Verified Listings</div>
+                                <div class="text-muted small mt-1">Cloud DevOps, ICU Nursing, Corporate FP&A, Customer Success, UI/UX Design.</div>
+                                <span class="badge bg-success-subtle text-success mt-2">Verified Corporate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Per Dataset Source Evaluation Table -->
+                <div class="card-custom p-4 mb-4">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-square-poll-vertical text-success me-2"></i>Performance Breakdown Across Dataset Sources</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Dataset Source</th>
+                                    <th>Evaluation Samples</th>
+                                    <th>Classification Accuracy</th>
+                                    <th>Minority F1 Score</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>EMSCAD / Kaggle Benchmark</b></td>
+                                    <td>3,581 jobs</td>
+                                    <td><span class="badge bg-success">98.35%</span></td>
+                                    <td>82.49%</td>
+                                    <td><span class="text-success small"><i class="fa-solid fa-circle-check"></i> High Generalization</span></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Internship & Student Scams</b></td>
+                                    <td>179 jobs</td>
+                                    <td><span class="badge bg-success">93.30%</span></td>
+                                    <td>94.96%</td>
+                                    <td><span class="text-success small"><i class="fa-solid fa-circle-check"></i> High Precision</span></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Modern Online Scams (Telegram/WhatsApp/USDT)</b></td>
+                                    <td>32 jobs</td>
+                                    <td><span class="badge bg-success">100.0%</span></td>
+                                    <td>100.0%</td>
+                                    <td><span class="text-success small"><i class="fa-solid fa-circle-check"></i> Perfect Detection</span></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Multi-Domain Verified Postings (Healthcare/DevOps/Finance)</b></td>
+                                    <td>35 jobs</td>
+                                    <td><span class="badge bg-success">100.0%</span></td>
+                                    <td>N/A (All Real)</td>
+                                    <td><span class="text-success small"><i class="fa-solid fa-circle-check"></i> Zero False Positives</span></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Secondary Scams Corpus</b></td>
+                                    <td>185 jobs</td>
+                                    <td><span class="badge bg-success">93.51%</span></td>
+                                    <td>94.83%</td>
+                                    <td><span class="text-success small"><i class="fa-solid fa-circle-check"></i> High Robustness</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-6">
+                        <div class="card-custom p-4 h-100">
+                            <h6 class="fw-bold mb-3"><i class="fa-solid fa-chart-pie text-primary me-2"></i>Dataset Distribution (Real vs Fake)</h6>
+                            <canvas id="chartDistribution" style="max-height: 280px;"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card-custom p-4 h-100">
+                            <h6 class="fw-bold mb-3"><i class="fa-solid fa-chart-column text-danger me-2"></i>Company Logo Impact on Fraud Rate</h6>
+                            <canvas id="chartLogo" style="max-height: 280px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-6">
+                        <div class="card-custom p-4 h-100">
+                            <h6 class="fw-bold mb-3"><i class="fa-solid fa-house-laptop text-warning me-2"></i>Remote / Telecommuting Fraud Risk</h6>
+                            <canvas id="chartRemote" style="max-height: 280px;"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card-custom p-4 h-100">
+                            <h6 class="fw-bold mb-3"><i class="fa-solid fa-trophy text-success me-2"></i>Top Model Architectures Comparison (Chart)</h6>
+                            <canvas id="chartMetrics" style="max-height: 280px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deep Neural Network Multi-Epoch Convergence Curve -->
+                <div class="card-custom p-4 mb-4" id="epochCard">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-brain me-2" style="color: #8b5cf6;"></i>Deep Neural Network (50 Epochs Training Convergence Curve)</h5>
+                    <div class="row align-items-center g-3">
+                        <div class="col-lg-8">
+                            <canvas id="chartEpochs" style="max-height: 280px;"></canvas>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="p-3 bg-light rounded-3 border">
+                                <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i>50-Epoch Deep Optimization</h6>
+                                <p class="small text-muted mb-2">The Multi-Layer Perceptron (MLP) Neural Network was iteratively trained across 50 complete epochs with plateau tracking and optimal checkpoint restoration.</p>
+                                <ul class="list-unstyled small mb-0">
+                                    <li class="mb-2"><b>Total Epochs:</b> <span class="badge bg-secondary" id="epochTotalLabel">50 Epochs</span></li>
+                                    <li class="mb-2"><b>Initial Loss (Epoch 1):</b> <span id="epochInitialLoss" class="badge bg-danger">-</span></li>
+                                    <li class="mb-2"><b>Final Loss:</b> <span id="epochFinalLoss" class="badge bg-success">-</span></li>
+                                    <li class="mb-1"><b>Peak Val F1-Score:</b> <span id="epochFinalF1" class="badge bg-primary">-</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9 Diverse Model Architectures Benchmark Table -->
+                <div class="card-custom p-4 mb-4">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-list-ol text-primary me-2"></i>Comprehensive Multi-Model Benchmark (9 Architectures on Test Set)</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="modelsBenchmarkTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Model Architecture</th>
+                                    <th>Model Family</th>
+                                    <th>Accuracy</th>
+                                    <th>Precision (Fraud)</th>
+                                    <th>Recall (Fraud)</th>
+                                    <th>F1-Score (Fraud)</th>
+                                    <th>ROC AUC</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modelsBenchmarkBody">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Top Predictive Keywords -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card-custom p-4">
+                            <h6 class="fw-bold text-danger mb-3"><i class="fa-solid fa-fire me-2"></i>Top Fraud-Predictive Keywords</h6>
+                            <div id="fraudWordsList" class="d-flex flex-wrap gap-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-custom p-4">
+                            <h6 class="fw-bold text-success mb-3"><i class="fa-solid fa-check-double me-2"></i>Top Legitimate-Predictive Keywords</h6>
+                            <div id="realWordsList" class="d-flex flex-wrap gap-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: SCAM PREVENTION GUIDE -->
+            <div class="tab-pane fade" id="guide" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card-custom p-4 h-100">
+                            <h5 class="fw-bold text-danger mb-3"><i class="fa-solid fa-mask me-2"></i>Top 4 Employment Scam Types</h5>
+                            
+                            <div class="mb-3 border-bottom pb-2">
+                                <h6 class="fw-bold text-dark mb-1">1. The Fake Check / Equipment Purchase Scam</h6>
+                                <p class="text-muted small">The "employer" sends a counterfeit cashier check for $2,000–$5,000 to purchase home office equipment from their designated vendor. When the victim deposits the check and wires funds to the fake vendor, the bank bounces the counterfeit check, leaving the victim in debt.</p>
+                            </div>
+
+                            <div class="mb-3 border-bottom pb-2">
+                                <h6 class="fw-bold text-dark mb-1">2. Telegram / WhatsApp Text-Only Interviews</h6>
+                                <p class="text-muted small">Advertising unrealistic salaries ($40–$80/hour) for entry-level data entry. The "hiring manager" conducts the interview strictly over chat apps (Telegram, WhatsApp) and never on corporate video calls.</p>
+                            </div>
+
+                            <div class="mb-3 border-bottom pb-2">
+                                <h6 class="fw-bold text-dark mb-1">3. Crypto / Wire Transfer Mule</h6>
+                                <p class="text-muted small">Jobs advertised as "Payment Processing Assistant" or "Crypto Account Manager" asking you to receive payments into your personal account and forward them via Bitcoin, Western Union, or Cash App.</p>
+                            </div>
+
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">4. Package Reshipping / Forwarding</h6>
+                                <p class="text-muted small">Victims receive packages ordered with stolen credit cards and reship them internationally, unknowingly participating in mail fraud.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card-custom p-4 h-100">
+                            <h5 class="fw-bold text-success mb-3"><i class="fa-solid fa-list-check me-2"></i>Job Seeker Safety Checklist</h5>
+                            
+                            <ul class="list-group list-group-flush mb-3">
+                                <li class="list-group-item d-flex gap-2">
+                                    <i class="fa-solid fa-check text-success mt-1"></i>
+                                    <div><b>Cross-check the Company Domain:</b> Official emails should end in <code>@company.com</code>, not <code>@gmail.com</code> or <code>@outlook.com</code>.</div>
+                                </li>
+                                <li class="list-group-item d-flex gap-2">
+                                    <i class="fa-solid fa-check text-success mt-1"></i>
+                                    <div><b>Verify on the Official Careers Page:</b> Search the company website directly to confirm the job listing exists.</div>
+                                </li>
+                                <li class="list-group-item d-flex gap-2">
+                                    <i class="fa-solid fa-check text-success mt-1"></i>
+                                    <div><b>Never Pay Upfront Fees:</b> Legitimate companies never charge applicants for background checks, laptops, or onboarding kits.</div>
+                                </li>
+                                <li class="list-group-item d-flex gap-2">
+                                    <i class="fa-solid fa-check text-success mt-1"></i>
+                                    <div><b>Demand a Real Video Interview:</b> Legitimate employers use Zoom, Teams, or Google Meet with their cameras on.</div>
+                                </li>
+                            </ul>
+
+                            <div class="alert alert-info py-2 small mb-0">
+                                <i class="fa-solid fa-circle-info me-1"></i> If you have encountered a scam, report it to the <b>Federal Trade Commission (FTC)</b> at <a href="https://reportfraud.ftc.gov" target="_blank" class="fw-bold text-decoration-none">ReportFraud.ftc.gov</a> and the <b>FBI IC3</b> at <a href="https://www.ic3.gov" target="_blank" class="fw-bold text-decoration-none">ic3.gov</a>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div><b>JobShield AI</b> — Fake Job Posting Detection System</div>
+            <div class="text-white-50 small mt-1">Engineered with Python, Flask, Scikit-Learn, and Chart.js</div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        let PRESETS_DATA = {};
+        let lastBatchResults = [];
+        let analyticsLoaded = false;
+
+        // Fetch presets on load
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("/api/presets")
+                .then(res => res.json())
+                .then(data => {
+                    PRESETS_DATA = data;
+                    const container = document.getElementById("presetsContainer");
+                    if (container) {
+                        container.innerHTML = Object.keys(data).map(key => `
+                            <span class="preset-badge" onclick="loadPreset('${key}')">
+                                ${data[key].label || key}
+                            </span>
+                        `).join("");
+                    }
+                })
+                .catch(err => console.error("Error loading presets:", err));
+        });
+
+        function loadPreset(key) {
+            const p = PRESETS_DATA[key];
+            if (!p) return;
+
+            document.getElementById("title").value = p.title || "";
+            document.getElementById("company_name").value = p.company_name || "";
+            document.getElementById("company_profile").value = p.company_profile || "";
+            document.getElementById("description").value = p.description || "";
+            document.getElementById("requirements").value = p.requirements || "";
+            document.getElementById("benefits").value = p.benefits || "";
+            if (document.getElementById("contact_info")) document.getElementById("contact_info").value = p.contact_info || "";
+            document.getElementById("telecommuting").checked = Boolean(p.telecommuting);
+            document.getElementById("has_company_logo").checked = Boolean(p.has_company_logo);
+            document.getElementById("employment_type").value = p.employment_type || "Full-time";
+            document.getElementById("required_experience").value = p.required_experience || "Entry level";
+
+            // Highlight chosen preset badge
+            document.querySelectorAll(".preset-badge").forEach(el => el.classList.remove("border-primary", "text-primary"));
+            event.target.classList.add("border-primary", "text-primary");
+        }
+
+        function resetForm() {
+            document.getElementById("jobForm").reset();
+            if (document.getElementById("contact_info")) document.getElementById("contact_info").value = "";
+            document.getElementById("resultsArea").classList.add("d-none");
+            document.querySelectorAll(".preset-badge").forEach(el => el.classList.remove("border-primary", "text-primary"));
+        }
+
+        async function analyzeJob(e) {
+            e.preventDefault();
+
+            const scanBtn = document.getElementById("scanBtn");
+            scanBtn.disabled = true;
+            scanBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Analyzing...';
+
+            const payload = {
+                title: document.getElementById("title").value,
+                company_name: document.getElementById("company_name").value,
+                company_profile: document.getElementById("company_profile").value,
+                description: document.getElementById("description").value,
+                requirements: document.getElementById("requirements").value,
+                benefits: document.getElementById("benefits").value,
+                contact_info: document.getElementById("contact_info") ? document.getElementById("contact_info").value : "",
+                telecommuting: document.getElementById("telecommuting").checked ? 1 : 0,
+                has_company_logo: document.getElementById("has_company_logo").checked ? 1 : 0,
+                employment_type: document.getElementById("employment_type").value,
+                required_experience: document.getElementById("required_experience").value
+            };
+
+            try {
+                const res = await fetch("/api/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    renderResults(result.data);
+                } else {
+                    alert("Analysis error: " + (result.error || "Unknown"));
+                }
+            } catch (err) {
+                alert("Server request failed: " + err.message);
+            } finally {
+                scanBtn.disabled = false;
+                scanBtn.innerHTML = '<i class="fa-solid fa-shield-halved me-2"></i> Scan & Evaluate Job';
+            }
+        }
+
+        function renderResults(d) {
+            const resultsArea = document.getElementById("resultsArea");
+            resultsArea.classList.remove("d-none");
+
+            const verdictCard = document.getElementById("verdictCard");
+            verdictCard.className = "verdict-box";
+            
+            const gaugeCircle = document.getElementById("gaugeCircle");
+
+            if (d.risk_level === "High") {
+                verdictCard.classList.add("verdict-high");
+                gaugeCircle.style.borderColor = "#dc2626";
+                gaugeCircle.style.color = "#dc2626";
+            } else if (d.risk_level === "Moderate") {
+                verdictCard.classList.add("verdict-moderate");
+                gaugeCircle.style.borderColor = "#d97706";
+                gaugeCircle.style.color = "#d97706";
+            } else {
+                verdictCard.classList.add("verdict-low");
+                gaugeCircle.style.borderColor = "#16a34a";
+                gaugeCircle.style.color = "#16a34a";
+            }
+
+            document.getElementById("verdictIcon").textContent = d.verdict_icon;
+            document.getElementById("verdictTitle").textContent = d.verdict;
+            document.getElementById("verdictSummary").textContent = d.verdict_summary;
+            document.getElementById("riskScoreVal").textContent = d.risk_score + "%";
+            document.getElementById("riskLevelText").textContent = "Risk Level: " + d.risk_level;
+
+            document.getElementById("mlProbVal").textContent = d.ml_probability + "%";
+            document.getElementById("flagsCountVal").textContent = d.flags.length;
+            document.getElementById("wordsCountVal").textContent = d.contributing_words.length;
+
+            // Entity verification status
+            const v = d.verification || {};
+            const verifCardIcon = document.getElementById("verifCardIcon");
+            const verifCardDetails = document.getElementById("verifCardDetails");
+            const verifBadge = document.getElementById("verifBadge");
+
+            if (v.status === "Verified") {
+                verifBadge.className = "badge bg-success px-3 py-2 fs-6";
+                verifBadge.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i> Domain Verified';
+                verifCardIcon.className = "fa-solid fa-building-circle-check fs-4 text-success";
+                verifCardDetails.textContent = `${v.company_details} | ${v.contact_details}`;
+            } else if (v.status === "Failed") {
+                verifBadge.className = "badge bg-danger px-3 py-2 fs-6";
+                verifBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> Verification Failed';
+                verifCardIcon.className = "fa-solid fa-building-circle-xmark fs-4 text-danger";
+                verifCardDetails.textContent = `${v.company_details} | ${v.contact_details}`;
+            } else if (v.status === "Caution") {
+                verifBadge.className = "badge bg-warning text-dark px-3 py-2 fs-6";
+                verifBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> Caution / Unverified';
+                verifCardIcon.className = "fa-solid fa-building-circle-exclamation fs-4 text-warning";
+                verifCardDetails.textContent = `${v.company_details} | ${v.contact_details}`;
+            } else {
+                verifBadge.className = "badge bg-secondary px-3 py-2 fs-6";
+                verifBadge.innerHTML = '<i class="fa-solid fa-circle-info me-1"></i> Unchecked Entity';
+                verifCardIcon.className = "fa-solid fa-building-shield fs-4 text-secondary";
+                verifCardDetails.textContent = "No company name or contact URL provided for external verification.";
+            }
+
+            // Flags list
+            const flagsList = document.getElementById("flagsList");
+            if (d.flags.length === 0) {
+                flagsList.innerHTML = '<div class="alert alert-success py-2 mb-0"><i class="fa-solid fa-circle-check me-2"></i> No high-risk structural or linguistic flags detected.</div>';
+            } else {
+                flagsList.innerHTML = d.flags.map(f => `
+                    <div class="flag-card">
+                        <span class="badge-${f.severity.toLowerCase()}">${f.severity.toUpperCase()}</span>
+                        <div>
+                            <div class="fw-bold">${f.factor}</div>
+                            <div class="text-muted small">${f.explanation}</div>
+                        </div>
+                    </div>
+                `).join("");
+            }
+
+            // Keywords
+            const kwCard = document.getElementById("keywordsCard");
+            const kwList = document.getElementById("keywordsList");
+            if (d.contributing_words.length > 0) {
+                kwCard.classList.remove("d-none");
+                kwList.innerHTML = d.contributing_words.map(w => `
+                    <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill me-1 mb-1 fs-6">${w}</span>
+                `).join("");
+            } else {
+                kwCard.classList.add("d-none");
+            }
+
+            // Recommendations
+            const recList = document.getElementById("recommendationsList");
+            recList.innerHTML = d.recommendations.map(r => `<li class="mb-1">${r}</li>`).join("");
+
+            // Smooth scroll to results
+            resultsArea.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        // Batch upload handler
+        async function handleCsvUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const progress = document.getElementById("batchProgress");
+            progress.classList.remove("d-none");
+
+            try {
+                const res = await fetch("/api/batch-scan", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    renderBatchResults(data.summary, data.results);
+                } else {
+                    alert("Batch upload failed: " + data.error);
+                }
+            } catch (err) {
+                alert("Upload error: " + err.message);
+            } finally {
+                progress.classList.add("d-none");
+            }
+        }
+
+        function renderBatchResults(summary, results) {
+            lastBatchResults = results;
+            document.getElementById("batchResultsArea").classList.remove("d-none");
+
+            document.getElementById("bTotal").textContent = summary.total;
+            document.getElementById("bFake").textContent = summary.fake_count + " (" + summary.fake_percentage + "%)";
+            document.getElementById("bModerate").textContent = summary.moderate_count;
+            document.getElementById("bLegit").textContent = summary.legit_count;
+
+            const tbody = document.getElementById("batchTableBody");
+            tbody.innerHTML = results.map(r => {
+                const badgeClass = r.risk_level === "High" ? "bg-danger" : (r.risk_level === "Moderate" ? "bg-warning text-dark" : "bg-success");
+                return `
+                    <tr>
+                        <td>${r.job_id}</td>
+                        <td class="fw-bold">${r.title}</td>
+                        <td>${r.company_name}</td>
+                        <td><span class="badge ${badgeClass}">${r.risk_score}%</span></td>
+                        <td>${r.verdict}</td>
+                        <td><small class="text-muted">${r.flags_detail || "None"}</small></td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function exportBatchCsv() {
+            if (!lastBatchResults || lastBatchResults.length === 0) return;
+            let csv = "Job ID,Title,Company,Risk Score,Risk Level,Verdict,Flags Detail\n";
+            lastBatchResults.forEach(r => {
+                csv += `"${r.job_id}","${(r.title||'').replace(/"/g, '""')}","${(r.company_name||'').replace(/"/g, '""')}","${r.risk_score}","${r.risk_level}","${r.verdict}","${(r.flags_detail||'').replace(/"/g, '""')}"\n`;
+            });
+            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "jobshield_batch_scan_results.csv";
+            link.click();
+        }
+
+        // Analytics charts
+        async function loadAnalytics() {
+            if (analyticsLoaded) return;
+            try {
+                const res = await fetch("/api/analytics");
+                const data = await res.json();
+                if (!data.success) return;
+
+                analyticsLoaded = true;
+                const eda = data.eda || {};
+                const metrics = data.metrics || {};
+
+                // 1. Distribution Chart
+                new Chart(document.getElementById("chartDistribution"), {
+                    type: "doughnut",
+                    data: {
+                        labels: ["Legitimate Jobs (88.7%)", "Fraudulent Jobs (11.3%)"],
+                        datasets: [{
+                            data: [eda.total_real || 17794, eda.total_fake || 2266],
+                            backgroundColor: ["#22c55e", "#ef4444"]
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+
+                // 2. Logo impact
+                new Chart(document.getElementById("chartLogo"), {
+                    type: "bar",
+                    data: {
+                        labels: ["Without Company Logo", "With Company Logo"],
+                        datasets: [{
+                            label: "Fraud Rate (%)",
+                            data: [eda.no_logo_fraud_rate || 24.2, eda.with_logo_fraud_rate || 4.1],
+                            backgroundColor: ["#ef4444", "#22c55e"]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, title: { display: true, text: "Fraud Rate (%)" } } }
+                    }
+                });
+
+                // 3. Remote impact
+                new Chart(document.getElementById("chartRemote"), {
+                    type: "bar",
+                    data: {
+                        labels: ["Remote / Telecommuting", "On-site / In-Office"],
+                        datasets: [{
+                            label: "Fraud Rate (%)",
+                            data: [eda.telecommuting_fraud_rate || 14.8, 8.2],
+                            backgroundColor: ["#f97316", "#3b82f6"]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, title: { display: true, text: "Fraud Rate (%)" } } }
+                    }
+                });
+
+                // 3b. Multi-Epoch Learning Curve
+                const epochHist = metrics.epoch_history || [];
+                if (epochHist.length > 0 && document.getElementById("chartEpochs")) {
+                    if (document.getElementById("epochTotalLabel")) document.getElementById("epochTotalLabel").textContent = epochHist.length + " Epochs";
+                    document.getElementById("epochInitialLoss").textContent = epochHist[0].train_loss;
+                    document.getElementById("epochFinalLoss").textContent = epochHist[epochHist.length - 1].train_loss;
+                    const peakF1 = Math.max(...epochHist.map(e => e.val_f1));
+                    document.getElementById("epochFinalF1").textContent = (peakF1 * 100).toFixed(2) + "%";
+
+                    new Chart(document.getElementById("chartEpochs"), {
+                        type: "line",
+                        data: {
+                            labels: epochHist.map(e => `Epoch ${e.epoch}`),
+                            datasets: [
+                                {
+                                    label: "Training Cross-Entropy Loss",
+                                    data: epochHist.map(e => e.train_loss),
+                                    borderColor: "#ef4444",
+                                    backgroundColor: "rgba(239, 68, 68, 0.15)",
+                                    yAxisID: "y",
+                                    tension: 0.35,
+                                    fill: true
+                                },
+                                {
+                                    label: "Validation F1-Score",
+                                    data: epochHist.map(e => e.val_f1),
+                                    borderColor: "#2563eb",
+                                    backgroundColor: "rgba(37, 99, 235, 0.15)",
+                                    yAxisID: "y1",
+                                    tension: 0.35,
+                                    fill: true
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: "top" }
+                            },
+                            scales: {
+                                y: {
+                                    type: "linear",
+                                    position: "left",
+                                    title: { display: true, text: "Loss" }
+                                },
+                                y1: {
+                                    type: "linear",
+                                    position: "right",
+                                    min: 0.70,
+                                    max: 1.0,
+                                    title: { display: true, text: "Val F1-Score" },
+                                    grid: { drawOnChartArea: false }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // 4. Multi-Model Benchmark comparison
+                const svm = metrics["Calibrated Linear SVM"] || { accuracy: 0.9793, precision: 0.9426, recall: 0.8698, f1_score: 0.9047, roc_auc: 0.9839 };
+                const lr = metrics["Logistic Regression (Balanced)"] || { accuracy: 0.9776, precision: 0.8903, recall: 0.9139, f1_score: 0.9020, roc_auc: 0.9840 };
+                const rf = metrics["Random Forest (Balanced)"] || { accuracy: 0.9629, precision: 0.8819, recall: 0.7748, f1_score: 0.8249, roc_auc: 0.9843 };
+                const nb = metrics["Multinomial Naive Bayes"] || { accuracy: 0.9591, precision: 0.8416, recall: 0.7859, f1_score: 0.8128, roc_auc: 0.9658 };
+
+                new Chart(document.getElementById("chartMetrics"), {
+                    type: "bar",
+                    data: {
+                        labels: ["Calibrated Linear SVM", "Logistic Regression", "Random Forest", "Naive Bayes"],
+                        datasets: [
+                            {
+                                label: "Accuracy (%)",
+                                data: [svm.accuracy * 100, lr.accuracy * 100, rf.accuracy * 100, nb.accuracy * 100],
+                                backgroundColor: "#3b82f6"
+                            },
+                            {
+                                label: "Precision (%)",
+                                data: [svm.precision * 100, lr.precision * 100, rf.precision * 100, nb.precision * 100],
+                                backgroundColor: "#10b981"
+                            },
+                            {
+                                label: "Recall (%)",
+                                data: [svm.recall * 100, lr.recall * 100, rf.recall * 100, nb.recall * 100],
+                                backgroundColor: "#f59e0b"
+                            },
+                            {
+                                label: "F1 Score (%)",
+                                data: [svm.f1_score * 100, lr.f1_score * 100, rf.f1_score * 100, nb.f1_score * 100],
+                                backgroundColor: "#8b5cf6"
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: "top" } },
+                        scales: { y: { min: 70, max: 100, title: { display: true, text: "Score (%)" } } }
+                    }
+                });
+
+                // Populate 9 Models Benchmark Table
+                const tbody = document.getElementById("modelsBenchmarkBody");
+                if (tbody) {
+                    const familyMap = {
+                        "Passive Aggressive Classifier": "Margin-Based Online Learner",
+                        "Ridge Classifier (Calibrated)": "Tikhonov Regularized Linear",
+                        "Calibrated Linear SVM": "Support Vector Machine (SGD)",
+                        "Logistic Regression (Balanced)": "Probabilistic Logistic Model",
+                        "Voting Ensemble (SVM + LR + CNB)": "Tri-Model Soft Voting Ensemble",
+                        "Extra Trees Classifier": "Extremely Randomized Trees",
+                        "Random Forest (Balanced)": "Bagged Decision Tree Ensemble",
+                        "Multinomial Naive Bayes": "Generative Word-Count Bayes",
+                        "Complement Naive Bayes": "Imbalanced-Optimized Bayes"
+                    };
+
+                    const modelList = [];
+                    for (const [mName, mData] of Object.entries(metrics)) {
+                        if (mData && typeof mData === "object" && mData.accuracy !== undefined) {
+                            modelList.push({ name: mName, ...mData });
+                        }
+                    }
+                    modelList.sort((a, b) => b.f1_score - a.f1_score);
+
+                    tbody.innerHTML = modelList.map((m, idx) => {
+                        const isTop = idx === 0;
+                        const badgeStatus = isTop ? '<span class="badge bg-success"><i class="fa-solid fa-trophy me-1"></i> Best Model</span>' : '<span class="badge bg-secondary-subtle text-secondary">Evaluated</span>';
+                        return `
+                            <tr class="${isTop ? 'table-success-subtle fw-semibold' : ''}">
+                                <td><b>${m.name}</b></td>
+                                <td><span class="badge bg-light text-dark border">${familyMap[m.name] || 'Ensemble / Linear'}</span></td>
+                                <td>${(m.accuracy * 100).toFixed(2)}%</td>
+                                <td>${(m.precision * 100).toFixed(2)}%</td>
+                                <td>${(m.recall * 100).toFixed(2)}%</td>
+                                <td><b>${(m.f1_score * 100).toFixed(2)}%</b></td>
+                                <td>${(m.roc_auc * 100).toFixed(2)}%</td>
+                                <td>${badgeStatus}</td>
+                            </tr>
+                        `;
+                    }).join("");
+                }
+
+                // Word pills
+                const fraudWords = metrics.top_fraud_words || ["wire", "telegram", "transfer", "cash", "account", "commission", "clerk", "shipping", "deposit", "urgent"];
+                const realWords = metrics.top_real_words || ["software", "engineering", "team", "development", "experience", "client", "business", "design", "cloud", "product"];
+
+                document.getElementById("fraudWordsList").innerHTML = fraudWords.slice(0, 20).map(w => `
+                    <span class="badge bg-danger-subtle text-danger px-2 py-1 fs-6">${w}</span>
+                `).join("");
+
+                document.getElementById("realWordsList").innerHTML = realWords.slice(0, 20).map(w => `
+                    <span class="badge bg-success-subtle text-success px-2 py-1 fs-6">${w}</span>
+                `).join("");
+
+            } catch (err) {
+                console.error("Analytics fetch error:", err);
+            }
+        }
+    </script>
+</body>
+</html>

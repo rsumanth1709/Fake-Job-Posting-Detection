@@ -1,0 +1,32 @@
+{
+  "EMSCAD / Kaggle Benchmark": {
+    "total": 17880,
+    "real": 17014,
+    "fake": 866,
+    "fraud_rate": 4.84
+  },
+  "Internship & Student Scams": {
+    "total": 900,
+    "real": 300,
+    "fake": 600,
+    "fraud_rate": 66.67
+  },
+  "Modern Online Scams (2024-2026)": {
+    "total": 200,
+    "real": 0,
+    "fake": 200,
+    "fraud_rate": 100.0
+  },
+  "Multi-Domain Verified Listings": {
+    "total": 180,
+    "real": 180,
+    "fake": 0,
+    "fraud_rate": 0.0
+  },
+  "Secondary Scams & Opportunities Corpus": {
+    "total": 900,
+    "real": 300,
+    "fake": 600,
+    "fraud_rate": 66.67
+  }
+}

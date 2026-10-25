@@ -1,0 +1,67 @@
+[
+  {
+    "label": "Legitimate",
+    "fraudulent": 0,
+    "title": "Marketing Intern",
+    "company_name": "nan",
+    "company_profile": "We're Food52, and we've created a groundbreaking and award-winning cooking site. We support, connect, and celebrate home cooks, and give them everything they need in one place.We have a top editorial, business, and engineering team. We're focused on using technology to find new and better ways to connect people around their specific food interests, and to offer them superb, highly curated informat",
+    "description": "Food52, a fast-growing, James Beard Award-winning online food community and crowd-sourced and curated recipe hub, is currently interviewing full- and part-time unpaid interns to work in a small team of editors, executives, and developers in its New York City headquarters.Reproducing and/or repackaging existing Food52 content for a number of partner sites, such as Huffington Post, Yahoo, Buzzfeed, and more in their various content management systemsResearching blogs and websites for the Provisions by Food52 Affiliate ProgramAssisting in day-to-day affiliate program support, such as screening af",
+    "requirements": "Experience with content management systems a major plus (any blogging counts!)Familiar with the Food52 editorial voice and aestheticLoves food, appreciates the importance of home cooking and cooking with the seasonsMeticulous editor, perfectionist, obsessive attention to detail, maddened by typos and broken links, delighted by finding and fixing themCheerful under pressureExcellent communication s",
+    "benefits": "",
+    "telecommuting": 0,
+    "has_company_logo": 1,
+    "dataset_source": "EMSCAD / Kaggle Benchmark"
+  },
+  {
+    "label": "Legitimate",
+    "fraudulent": 0,
+    "title": "Customer Service - Cloud Video Production",
+    "company_name": "nan",
+    "company_profile": "90 Seconds, the worlds Cloud Video Production Service.90 Seconds is the worlds Cloud Video Production Service enabling brands and agencies to get high quality online video content shot and produced anywhere in the world. 90 Seconds makes video production fast, affordable, and all managed seamlessly in the cloud from purchase to publish. http://90#URL_fbe6559afac620a3cd2c22281f7b8d0eef56a73e3d9a311",
+    "description": "Organised - Focused - Vibrant - Awesome!Do you have a passion for customer service? Slick typing skills? Maybe Account Management? ...And think administration is cooler than a polar bear on a jetski? Then we need to hear you!\u00a0We are the Cloud Video Production Service and opperating on a glodal level. Yeah, it's pretty cool. Serious about\u00a0delivering a world class product and excellent customer service.Our rapidly expanding business is looking for a talented Project Manager to manage the successful delivery of video projects, manage client communications and drive the production process. Work wi",
+    "requirements": "What we expect from you:Your key responsibility will be to communicate with the client, 90 Seconds team and freelance community throughout the video production process including, shoot planning, securing freelance talent, managing workflow and the online production management system. \u00a0The aim is to manage each video project effectively so that we produce great videos that our clients love.Key\u00a0attr",
+    "benefits": "What you will get from usThrough being part of the 90 Seconds team you will gain:experience working on projects located around the world with an international brandexperience working with a variety of clients and on a large range of projectsopportunity to drive and grow production function and teama",
+    "telecommuting": 0,
+    "has_company_logo": 1,
+    "dataset_source": "EMSCAD / Kaggle Benchmark"
+  },
+  {
+    "label": "Fraudulent (Modern Online Scams (2024-2026))",
+    "fraudulent": 1,
+    "title": "Remote Mobile App Optimization Specialist ($50-$80/hr)",
+    "company_name": "Digital AppBoost Global Ltd",
+    "company_profile": "Leading international app ranking analytics company.",
+    "description": "We are hiring remote App Optimization clerks to review and rate mobile applications. Earn $300 to $800 daily by completing simple rating tasks on our portal. Work 1-2 hours from home. All communication and daily payout instructions are sent via Telegram @AppBoost_Manager. New members must purchase task VIP credits via USDT/crypto to unlock premium earning tiers. 100% daily returns guaranteed.",
+    "requirements": "Smartphone and internet connection. Must have Telegram and crypto wallet (Binance, TrustWallet) to receive USDT rewards.",
+    "benefits": "Instant crypto withdrawal, daily commission, no experience required, immediate start.",
+    "telecommuting": 1,
+    "has_company_logo": 0,
+    "dataset_source": "Modern Online Scams (2024-2026)"
+  },
+  {
+    "label": "Fraudulent (Internship & Student Scams)",
+    "fraudulent": 1,
+    "title": "Data Entry",
+    "company_name": "Campus Recruiting Partner",
+    "company_profile": "",
+    "description": "Title: Data Entry\nLocation: US, NY, ACRA\nDescription: Data EntryThe purpose of this position is to complete study related case report forms, either paper or electronic and to ensure that all international regulatory standards and sponsor requirements are met providing the highest quality clinical trial services possible.DUTIES AND RESPONSIBILITIESCompare data with source documents to detect errors.Compile, sort and verify the accuracy of data before it is entered.Locate and correct data entry errors per Prism Research\u2019s SOPs,Maintain study related logs.Read study protocols and source documents",
+    "requirements": "Student or recent graduate",
+    "benefits": "Internship certificate and stipend",
+    "telecommuting": 0,
+    "has_company_logo": 0,
+    "dataset_source": "Internship & Student Scams"
+  },
+  {
+    "label": "Fraudulent (EMSCAD / Kaggle Benchmark)",
+    "fraudulent": 1,
+    "title": "IC&E Technician",
+    "company_name": "nan",
+    "company_profile": "\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0Staffing &amp; Recruiting done right for the Oil &amp; Energy Industry!Represented candidates are automatically granted the following perks: Expert negotiations on your behalf, maximizing your compensation package and implimenting ongoing increases\u00a0Significant signing bonus by Refined Resources (in addition to any pot",
+    "description": "IC&amp;E Technician | Bakersfield, CA Mt. PosoPrincipal Duties and Responsibilities:\u00a0Calibrates, tests, maintains, troubleshoots, and installs all power plant instrumentation, control systems and electrical equipment.Performs maintenance on motor control centers, motor operated valves, generators, excitation equipment and motors.Performs preventive, predictive and corrective maintenance on equipment, coordinating work with various team members.Designs and installs new equipment and/or system modifications.Troubleshoots and performs maintenance on DC backup power equipment, process controls, pr",
+    "requirements": "QualificationsKnowledge, Skills &amp; Abilities:\u00a0A high school diploma or GED is required. Must have a valid driver\u2019s license. Ability to read, write, and communicate effectively in English.\u00a0\u00a0Good math skills.\u00a0Four years of experience as an I&amp;C Technician and/or Electrician in a power plant environment, preferably with a strong electrical background, up to and including, voltages to 15 KV to p",
+    "benefits": "BENEFITSWhat is offered:Competitive compensation package100% matched retirement fundAnnual vacations paid for by companySignificant bonus structureOpportunity for advancement\u00a0Full benefits packageAnnual performance reviews and base salary increasesAnnual cost of living increases\u00a0Sound, clean, safe a",
+    "telecommuting": 0,
+    "has_company_logo": 1,
+    "dataset_source": "EMSCAD / Kaggle Benchmark"
+  }
+]
