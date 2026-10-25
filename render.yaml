@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: jobshield-ai
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python -m nltk.downloader stopwords
+    startCommand: gunicorn --workers 1 --threads 4 --timeout 120 server:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12

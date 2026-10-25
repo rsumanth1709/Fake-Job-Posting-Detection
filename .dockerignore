@@ -1,0 +1,12 @@
+.git/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.csv
+!fake_job_postings.csv
+data/
+*.ipynb
+run_app.bat
+run_app.ps1
+.vscode/
